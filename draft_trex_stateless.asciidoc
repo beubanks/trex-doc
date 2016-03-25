@@ -1705,7 +1705,7 @@ In this example we will show VXLAN support.
 # RFC 7348 - Virtual eXtensible Local Area Network (VXLAN):                                     <1>
 # A Framework for Overlaying Virtualized Layer 2 Networks over Layer 3 Networks
 # http://tools.ietf.org/html/rfc7348
-_VXLAN_FLAGS = ['R' for i in range(0, 24)] + ['R', 'R', 'R', 'I', 'R', 'R', 'R', 'R', 'R'] 
+_VXLAN_FLAGS = ['R', 'R', 'R', 'R', 'I', 'R', 'R', 'R'] + ['R' for i in range(0, 24)] 
 
 class VXLAN(Packet):
     name = "VXLAN"
