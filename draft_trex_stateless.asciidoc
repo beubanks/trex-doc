@@ -1630,7 +1630,7 @@ In this example an MPLS label field will be changed.
                          mode = STLTXSingleBurst( pps = 1, total_pkts = 100) )
 
 ----
-<1> Define varible size of 2 bytes
+<1> Define variable size of 2 bytes
 <2> Write the stream variable label with a shift of 12 bits and with 20bit MSB mask. Cast the stream variables of 2 bytes to 4 bytes
 <3> Second MPLS header should be changed 
 
@@ -1799,7 +1799,7 @@ class STLS1(object):
         vm = STLScVmRaw( [ STLVmFlowVar(name="mac_src", 
                                         min_value=1, 
                                         max_value=self.num_clients, 
-                                        size=2, op="inc"), # 1 byte varible, range 1-10
+                                        size=2, op="inc"), # 1 byte variable, range 1-10
                                         
                            STLVmWrFlowVar(fv_name="mac_src", pkt_offset= 10),        <1>                 
                            STLVmWrFlowVar(fv_name="mac_src" ,
@@ -1918,7 +1918,7 @@ To simulate it you can run the following command, let's take the file `stl/udp_1
 ----
 $./stl-sim -f stl/udp_1pkt_range_clients_split.py -o a.pcap -c 2 -l 10   #<1> 
 ----
-<1> simulate 2 threads -c 2
+<1> simulate 2 threads `-c 2`
 
 
 .Variable per thread 
@@ -1933,9 +1933,9 @@ pkt, thread-0 ip_src,thread-1 ip_src
  6  , 55.55.0.6 , 55.55.58.158
 |=================
 
-*Some rules about Split stream varibles and burst/multi-burst*::
+*Some rules about Split stream variables and burst/multi-burst*::
 
-* In case of burst/multi-burst the number of packets are split to number of threads in *default* there is no need an explict split it.
+* In case of burst/multi-burst the number of packets are split to number of threads by *default*. There is no need to explictly split it.
 * When the number of packets in a burst is smaller than the number of threads only one thread will do the work. 
 * In case there is a stream with burst of *1* packet, only the first DP thread will do the work. 
 
@@ -2014,7 +2014,7 @@ pkt, thread-0 ip_src,thread-1 ip_src
 
 [source,python]
 ----              
-# no split
+# with split
 class STLS1(object):
     """ attack 48.0.0.1 at port 80
     """
@@ -2073,15 +2073,15 @@ pkt, thread-0 ip_src,thread-1 ip_src
 
 ==== Tutorial: Field Engine, Null stream 
 
-The following example demonstrates a way create a Stream with no packets. The use cases is to use the Null stream inter stream gap (ISG) and then go to a new stream. 
-using this you can create loops like this:
+The following example demonstrates a way create a Stream with no packets. The use case for this is to use the Null stream's inter stream gap (ISG) and then go to a new stream. 
+Using this you can create loops like this:
 
 image::images/stl_null_stream.png[title="Null Stream",align="left",width={p_width}, link="images/stl_null_stream.png"]
  
 1. S1 - send_burst of packets, go to stream NULL
 2. NULL - wait ISG time - go to S1 
 
-Null stream is with configured with 
+A Null stream is configured with 
 
 1. mode: burst 
 2. number of packets: 0
@@ -2091,13 +2091,13 @@ Null stream is with configured with
 
 image::images/stl_barrier.png[title="Barrier Stream",align="left",width={p_width}, link="images/stl_barrier.png"]
 
-In some cases there is a need to split the streams to thread in a way that specific stream will continue only after all the threads pass the same path. 
-In the above figure we would like to that stream S3 will start on all the thread after S2 was finished by all the threads 
+In some cases there is a need to split the streams to threads in a way that a specific stream will continue only after all the threads pass the same path. 
+In the above figure we would like to ensure that stream S3 will start on all the threads after S2 was finished by all the threads 
 
 
 ==== Tutorial: Pcap file to one stream 
 
-*Goal*:: Load stream template packet from pcap file instaed of scapy.
+*Goal*:: Load stream template packet from pcap file instead of scapy.
 
 There is an assumption that this pcap has one packet. In case it has more only the first packet is loaded.
 
@@ -2155,7 +2155,7 @@ This figure illustrates how the streams look like for pcap file with 3 packets.
 * Each stream is configured to burst with one packet 
 * Each stream point to the next stream. 
 * The last stream point to the first with action_loop=loop_count in case it was asked (>1)
-The profile will run on one DP thread because it has burst with one packet (Split can work in this case)
+The profile will run on one DP thread because it has burst with one packet (Split can not work in this case)
 
 Running this example
 
